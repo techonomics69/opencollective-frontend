@@ -388,6 +388,11 @@ interface AccountWithHost {
   isActive: Boolean!
 }
 
+type AccountWithRecoveryCodes {
+  account: Account!
+  recoveryCodes: [String]
+}
+
 """
 An activity describing something that happened on the platform
 """
@@ -5224,7 +5229,7 @@ type Mutation {
     The generated secret to save to the Account
     """
     token: String!
-  ): Individual!
+  ): AccountWithRecoveryCodes!
 
   """
   Remove 2FA from the Account if it has been enabled

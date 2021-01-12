@@ -95,10 +95,13 @@ class ContributionFlow extends React.Component {
     skipStepDetails: PropTypes.bool,
     loadingLoggedInUser: PropTypes.bool,
     hasGuestContributions: PropTypes.bool,
+    isEmbed: PropTypes.bool,
     step: PropTypes.string,
     redirect: PropTypes.string,
     verb: PropTypes.string,
     contributeAs: PropTypes.string,
+    defaultEmail: PropTypes.string,
+    defaultName: PropTypes.string,
     /** @ignore from withUser */
     refetchLoggedInUser: PropTypes.func,
     /** @ignore from withUser */
@@ -380,7 +383,7 @@ class ContributionFlow extends React.Component {
 
   /** Navigate to another step, ensuring all route params are preserved */
   pushStepRoute = async (stepName, routeParams = {}) => {
-    const { collective, tier, LoggedInUser } = this.props;
+    const { collective, tier, LoggedInUser, isEmbed } = this.props;
     const { stepDetails, stepProfile } = this.state;
 
     const params = {
@@ -388,7 +391,15 @@ class ContributionFlow extends React.Component {
       collectiveSlug: collective.slug,
       step: stepName === 'details' ? undefined : stepName,
       interval: this.props.fixedInterval || undefined,
-      ...pick(this.props, ['interval', 'description', 'redirect', 'contributeAs']),
+      ...pick(this.props, [
+        'interval',
+        'description',
+        'redirect',
+        'contributeAs',
+        'defaultEmail',
+        'defaultName',
+        'useTheme',
+      ]),
       ...routeParams,
     };
 
@@ -408,6 +419,9 @@ class ContributionFlow extends React.Component {
     } else if (params.verb === 'contribute' || params.verb === 'new-contribute') {
       // Never use `contribute` as verb if not using a tier (would introduce a route conflict)
       params.verb = 'donate';
+    }
+    if (isEmbed) {
+      route = 'embed-contribution-flow';
     }
 
     // Reset errors if any
@@ -673,11 +687,13 @@ class ContributionFlow extends React.Component {
                     showFeesOnTop={this.canHaveFeesOnTop()}
                     onNewCardFormReady={({ stripe }) => this.setState({ stripe })}
                     defaultProfileSlug={this.props.contributeAs}
+                    defaultEmail={this.props.defaultEmail}
+                    defaultName={this.props.defaultName}
                     taxes={this.getApplicableTaxes(collective, host, tier?.type)}
                     onSignInClick={() => this.setState({ showSignIn: true })}
                   />
 
-                  <Box mt={[4, 5]}>
+                  <Box mt={40}>
                     <ContributionFlowButtons
                       goNext={goNext}
                       goBack={goBack}
@@ -761,6 +777,7 @@ export const orderSuccessFragment = gqlV2/* GraphQL */ `
       tags
       type
       isHost
+      settings
       ... on AccountWithContributions {
         contributors {
           totalCount

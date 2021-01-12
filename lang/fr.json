@@ -1206,7 +1206,7 @@
   "NewContributionFlow.NumberOfFinancialContributors": "{contributors} contributeurs financiers",
   "NewContributionFlow.PaymentInstructions": "Instructions de paiement",
   "NewContributionFlow.PendingContribution": "Contribution en attente",
-  "NewContributionFlow.ProtectTransactionDetails": "Avec Open Collective, votre transaction est sécurisée. <link>En savoir plus</link>.",
+  "NewContributionFlow.ProtectTransactionDetails": "With Open Collective, your transaction is safe. <link>Know more</link>.",
   "NewContributionFlow.ProtectTransactionTitle": "Nous protégeons votre transaction :",
   "NewContributionFlow.step.contributeAsGuest": "Contribuer en tant qu'invité·e",
   "NewContributionFlow.step.SignUpToContribute": "Inscrivez-vous pour contribuer de façon récurrente",

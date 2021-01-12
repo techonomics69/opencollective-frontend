@@ -1206,7 +1206,7 @@
   "NewContributionFlow.NumberOfFinancialContributors": "{contributors} financial contributors",
   "NewContributionFlow.PaymentInstructions": "Payment instructions",
   "NewContributionFlow.PendingContribution": "Pending contribution",
-  "NewContributionFlow.ProtectTransactionDetails": "In Open Collective, your transaction is safe. <link>Know more</link>.",
+  "NewContributionFlow.ProtectTransactionDetails": "With Open Collective, your transaction is safe. <link>Know more</link>.",
   "NewContributionFlow.ProtectTransactionTitle": "We protect your transaction:",
   "NewContributionFlow.step.contributeAsGuest": "Внести вклад как гость",
   "NewContributionFlow.step.SignUpToContribute": "Зарегистрируйтесь, чтобы вносить периодический вклад",

@@ -144,6 +144,7 @@ body.showModal .EventPage {
 body > div:first-child {
   position: relative;
   min-height: 100%;
+  height: 100%;
 }
 
 @media (max-width: 600px) {

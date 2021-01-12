@@ -37,17 +37,28 @@ export const validateGuestProfile = (stepProfile, stepDetails) => {
   }
 };
 
-const StepProfileGuestForm = ({ stepDetails, onChange, data, onSignInClick }) => {
+const StepProfileGuestForm = ({ stepDetails, onChange, data, defaultEmail, defaultName, onSignInClick }) => {
   const totalAmount = getTotalAmount(stepDetails);
   const dispatchChange = (field, value) => {
     const newData = set({ ...data, isGuest: true }, field, value);
     onChange({ stepProfile: newData });
   };
 
+  React.useEffect(() => {
+    if (!data) {
+      if (defaultName) {
+        dispatchChange('name', defaultName);
+      }
+      if (defaultEmail) {
+        dispatchChange('email', defaultEmail);
+      }
+    }
+  }, [defaultEmail, defaultName]);
+
   return (
     <Container as="fieldset" border="none" width={1} py={3}>
-      <Flex justifyContent="space-between">
-        <Box width={1 / 2} mb={3} mr={1}>
+      <Flex justifyContent="space-between" flexWrap={['wrap', null, 'nowrap']}>
+        <Box width="50%" minWidth={185} flex="1 1 50%" mb={3} mr={1}>
           <StyledInputField
             label={<FormattedMessage id="User.FullName" defaultMessage="Full name" />}
             htmlFor="name"
@@ -56,7 +67,7 @@ const StepProfileGuestForm = ({ stepDetails, onChange, data, onSignInClick }) =>
             {inputProps => (
               <StyledInput
                 {...inputProps}
-                defaultValue={data?.name}
+                defaultValue={data?.name || defaultName}
                 placeholder="i.e. Thomas Anderson"
                 onChange={e => dispatchChange(e.target.name, e.target.value)}
                 maxLength="255"
@@ -64,7 +75,7 @@ const StepProfileGuestForm = ({ stepDetails, onChange, data, onSignInClick }) =>
             )}
           </StyledInputField>
         </Box>
-        <Box width={1 / 2} mb={3} ml={1}>
+        <Box width="50%" minWidth={185} flex="1 1 50%" mb={3} mr={1}>
           <StyledInputField
             label={<FormattedMessage id="Email" defaultMessage="Email" />}
             htmlFor="email"
@@ -74,7 +85,7 @@ const StepProfileGuestForm = ({ stepDetails, onChange, data, onSignInClick }) =>
             {inputProps => (
               <StyledInput
                 {...inputProps}
-                defaultValue={data?.email}
+                defaultValue={data?.email || defaultEmail}
                 placeholder="i.e. tanderson@thematrix.com"
                 type="email"
                 onChange={e => dispatchChange(e.target.name, e.target.value)}
@@ -174,6 +185,9 @@ StepProfileGuestForm.propTypes = {
   data: PropTypes.object,
   onChange: PropTypes.func,
   onSignInClick: PropTypes.func,
+  defaultEmail: PropTypes.string,
+  defaultName: PropTypes.string,
+  defaultName: PropTypes.string,
 };
 
 export default StepProfileGuestForm;

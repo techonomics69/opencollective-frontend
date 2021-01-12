@@ -136,6 +136,9 @@ pages.add(
   createOrderPage,
 );
 
+// Embed
+pages.add('embed-contribution-flow', `/embed/:collectiveSlug/donate/:step(${contributionFlowSteps})?`);
+
 // Pledges
 // -------
 

@@ -27,6 +27,8 @@ class ContributionFlowStepContainer extends React.Component {
     onNewCardFormReady: PropTypes.func,
     onSignInClick: PropTypes.func,
     defaultProfileSlug: PropTypes.string,
+    defaultEmail: PropTypes.string,
+    defaultName: PropTypes.string,
     taxes: PropTypes.array,
     step: PropTypes.shape({
       name: PropTypes.string,
@@ -145,10 +147,11 @@ class ContributionFlowStepContainer extends React.Component {
             stepDetails={stepDetails}
             profiles={options}
             defaultSelectedProfile={defaultSelectedProfile}
+            defaultEmail={this.props.defaultEmail}
+            defaultName={this.props.defaultName}
             onChange={this.props.onChange}
             data={stepProfile}
             canUseIncognito={collective.type !== CollectiveType.EVENT && (!tier || tier.type !== 'TICKET')}
-            defaultProfileSlug={this.props.defaultProfileSlug}
             onSignInClick={this.props.onSignInClick}
           />
         );

@@ -10,6 +10,7 @@ import Container from '../Container';
 import { Box, Flex } from '../Grid';
 import Link from '../Link';
 import StyledButton from '../StyledButton';
+import StyledHr from '../StyledHr';
 import StyledTag from '../StyledTag';
 import { P } from '../Text';
 
@@ -194,9 +195,24 @@ const ContributeCard = ({
             <Box mt={2} height={60}>
               {contributors && contributors.length > 0 && (
                 <React.Fragment>
+                  <Flex alignItems="center" mt={3} mb={2}>
+                    <P
+                      color="#4E5052"
+                      fontFamily="Inter"
+                      fontSize="9px"
+                      fontWeight="500"
+                      letterSpacing="0.06em"
+                      pr={2}
+                      textTransform="uppercase"
+                      whiteSpace="nowrap"
+                    >
+                      <FormattedMessage id="Tier.contributionsBy" defaultMessage="contributions by" />
+                    </P>
+                    <StyledHr flex="1" borderStyle="solid" borderColor="#DCDEE0" />
+                  </Flex>
                   <Flex>
                     {contributors.slice(0, MAX_CONTRIBUTORS_PER_CONTRIBUTE_CARD).map(contributor => (
-                      <Box key={contributor.id} mx={2}>
+                      <Box key={contributor.id} mx={1}>
                         {contributor.collectiveSlug ? (
                           <Link
                             route="collective"
@@ -211,25 +227,13 @@ const ContributeCard = ({
                       </Box>
                     ))}
                     {totalContributors > MAX_CONTRIBUTORS_PER_CONTRIBUTE_CARD && (
-                      <Container ml={2} pt="0.7em" fontSize="12px" color="black.600">
-                        + {totalContributors - MAX_CONTRIBUTORS_PER_CONTRIBUTE_CARD}
+                      <Container ml={2} pt="0.7em" fontSize="11px" fontWeight="bold" color="#76777A">
+                        {totalContributors - MAX_CONTRIBUTORS_PER_CONTRIBUTE_CARD}
                       </Container>
                     )}
                   </Flex>
                   {stats && stats.all > 0 && (
                     <P mt={2} fontSize="10px" color="black.600" letterSpacing="-0.6px">
-                      {type !== 'TICKET' && (
-                        <FormattedMessage
-                          id="ContributorsCount"
-                          defaultMessage="{userCount, plural, =0 {} one {# individual } other {# individuals }} {both, plural, =0 {} other {and }}{orgCount, plural, =0 {} one {# organization} other {# organizations}} {totalCount, plural, one {has } other {have }} contributed"
-                          values={{
-                            userCount: stats.users,
-                            orgCount: stats.organizations,
-                            totalCount: stats.all,
-                            both: Number(stats.users && stats.organizations),
-                          }}
-                        />
-                      )}
                       {type === 'TICKET' && (
                         <FormattedMessage
                           id="ParticipantsCount"

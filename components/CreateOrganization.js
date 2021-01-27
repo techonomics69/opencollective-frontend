@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import { withRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 
 import { getErrorFromGraphqlException } from '../lib/errors';
 import { addCreateCollectiveMutation } from '../lib/graphql/mutations';
-import { Router } from '../server/pages';
 
 import Body from './Body';
 import Container from './Container';
@@ -21,6 +21,7 @@ class CreateOrganization extends React.Component {
     createCollective: PropTypes.func,
     LoggedInUser: PropTypes.object,
     refetchLoggedInUser: PropTypes.func.isRequired, // props coming from withUser
+    router: PropTypes.object,
   };
 
   constructor(props) {
@@ -67,10 +68,13 @@ class CreateOrganization extends React.Component {
         },
       });
       await this.props.refetchLoggedInUser();
-      Router.pushRoute('collective', {
-        CollectiveId: collective.id,
-        slug: collective.slug,
-        status: 'collectiveCreated',
+      this.props.router.push({
+        pathname: '/collective',
+        query: {
+          CollectiveId: collective.id,
+          slug: collective.slug,
+          status: 'collectiveCreated',
+        },
       });
     } catch (err) {
       const errorMsg = getErrorFromGraphqlException(err).message;
@@ -135,4 +139,4 @@ class CreateOrganization extends React.Component {
   }
 }
 
-export default addCreateCollectiveMutation(CreateOrganization);
+export default addCreateCollectiveMutation(withRouter(CreateOrganization));

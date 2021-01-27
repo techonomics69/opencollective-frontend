@@ -10,13 +10,13 @@ import styled from 'styled-components';
 
 import colors from '../lib/constants/colors';
 import { parseToBoolean } from '../lib/utils';
-import { Link, Router } from '../server/pages';
 
 import Button from '../components/Button';
 import CollectiveCard from '../components/CollectiveCard';
 import Container from '../components/Container';
 import ErrorPage from '../components/ErrorPage';
 import { Box, Flex } from '../components/Grid';
+import Link from '../components/Link';
 import LoadingGrid from '../components/LoadingGrid';
 import Page from '../components/Page';
 import Pagination from '../components/Pagination';
@@ -125,17 +125,17 @@ class SearchPage extends React.Component {
     const { term } = this.props;
 
     if (filter === 'HOST') {
-      Router.pushRoute('search', { q: term, isHost: true });
+      this.props.router.push({ pathname: '/search', query: { q: term, isHost: true } });
     } else if (filter !== 'ALL') {
-      Router.pushRoute('search', { q: term, types: filter });
+      this.props.router.push('search', { q: term, types: filter });
     } else {
-      Router.pushRoute('search', { q: term });
+      this.props.router.push({ pathname: '/search', query: { q: term } });
     }
   };
 
   changePage = offset => {
     const { router } = this.props;
-    Router.pushRoute('search', { ...router.query, offset });
+    this.props.router.push({ pathname: '/search', query: { ...router.query, offset } });
   };
 
   render() {

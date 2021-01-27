@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 import HashLink from 'react-scrollchor';
 
 import colors from '../lib/constants/colors';
 import defaultColors from '../lib/theme/colors';
-import { Router } from '../server/pages';
 
 const star = '/static/images/icons/star.svg';
 
@@ -23,6 +23,7 @@ class Button extends React.Component {
     icon: PropTypes.string,
     style: PropTypes.object,
     children: PropTypes.node,
+    router: PropTypes.object,
   };
 
   constructor(props) {
@@ -38,7 +39,7 @@ class Button extends React.Component {
     }
     e.preventDefault();
     if (href && href.substr(0, 1) !== '#') {
-      await Router.pushRoute(href);
+      await this.props.router.push(href);
       window.scrollTo(0, 0);
       document.body.focus();
     }
@@ -204,4 +205,4 @@ class Button extends React.Component {
   }
 }
 
-export default Button;
+export default withRouter(Button);

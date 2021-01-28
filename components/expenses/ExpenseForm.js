@@ -283,7 +283,7 @@ const ExpenseFormBody = ({
           <HiddenFragment show={step == STEPS.PAYEE}>
             <Flex alignItems="center" mb={16}>
               <Span color="black.900" fontSize="16px" lineHeight="21px" fontWeight="bold">
-                {formatMessage(msg.stepPayee)}
+                {formatMessage(msg.stepPayee)} yeet
               </Span>
               <Box ml={2}>
                 <PrivateInfoIcon size={12} color="#969BA3" tooltipProps={{ display: 'flex' }} />
@@ -310,6 +310,9 @@ const ExpenseFormBody = ({
                 loggedInAccount={loggedInAccount}
                 onNext={() => {
                   const validation = validatePayoutMethod(values.payoutMethod);
+                  if (typeof values.payeeLocation.address === 'object') {
+                    values.payeeLocation.address = JSON.stringify(values.payeeLocation.address);
+                  }
                   if (isEmpty(validation)) {
                     setStep(STEPS.EXPENSE);
                   } else {

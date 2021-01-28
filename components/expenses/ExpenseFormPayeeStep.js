@@ -18,6 +18,7 @@ import CollectivePicker, {
 } from '../CollectivePicker';
 import CollectivePickerAsync from '../CollectivePickerAsync';
 import { Box, Flex } from '../Grid';
+import I18nAddressFields from '../I18nAddressFields';
 import InputTypeCountry from '../InputTypeCountry';
 import StyledButton from '../StyledButton';
 import StyledHr from '../StyledHr';
@@ -237,7 +238,9 @@ const ExpenseFormPayeeStep = ({
                       <InputTypeCountry
                         data-cy="payee-country"
                         inputId={id}
-                        onChange={value => formik.setFieldValue(field.name, value)}
+                        onChange={value => {
+                          formik.setFieldValue(field.name, value);
+                        }}
                         value={field.value}
                         error={error}
                       />
@@ -245,28 +248,7 @@ const ExpenseFormPayeeStep = ({
                   </StyledInputField>
                 )}
               </FastField>
-              <FastField name="payeeLocation.address">
-                {({ field }) => (
-                  <StyledInputField
-                    name={field.name}
-                    label={formatMessage(msg.address)}
-                    labelFontSize="13px"
-                    error={formatFormErrorMessage(intl, errors.payeeLocation?.address)}
-                    required
-                    mt={3}
-                  >
-                    {inputProps => (
-                      <StyledTextarea
-                        {...inputProps}
-                        {...field}
-                        minHeight={100}
-                        data-cy="payee-address"
-                        placeholder="P. Sherman 42&#10;Wallaby Way&#10;Sydney"
-                      />
-                    )}
-                  </StyledInputField>
-                )}
-              </FastField>
+              <I18nAddressFields selectedCountry={values.payeeLocation?.country} />
               <FastField name="invoiceInfo">
                 {({ field }) => (
                   <StyledInputField

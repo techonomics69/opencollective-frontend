@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import styled, { css } from 'styled-components';
 
+import useGlobalBlur from '../lib/hooks/useGlobalBlur';
+
 export const DropdownContent = styled.div`
   display: none;
   position: absolute;
@@ -47,31 +49,31 @@ export const DropdownArrow = styled('div')`
  *
  * When using `click` as a `trigger` you must pass a function as `children` and
  * make sure you pass down the `triggerProps` and `dropdownProps`.
+ * The ref must be on the wrapping div in order to work in Firefox (Mac) and Safari.
  */
 export const Dropdown = styled(({ children, trigger, ...props }) => {
   const dropdownRef = useRef();
   const [isDisplayed, setDisplayed] = React.useState(false);
 
+  useGlobalBlur(dropdownRef, outside => {
+    if (outside && isDisplayed) {
+      setTimeout(() => {
+        setDisplayed(false);
+      }, 50);
+    }
+  });
+
   if (typeof children === 'function' && trigger === 'click') {
     return (
-      <div {...props} data-expanded={isDisplayed}>
+      <div ref={dropdownRef} {...props} data-expanded={isDisplayed}>
         {children({
           isDisplayed,
           triggerProps: {
-            onClick: () => setDisplayed(!isDisplayed),
-            onBlur: () => {
-              if (isDisplayed) {
-                setTimeout(() => {
-                  if (!document.activeElement || !dropdownRef.current?.contains(document.activeElement)) {
-                    setDisplayed(false);
-                  }
-                }, 50);
-              }
+            onClick: () => {
+              setDisplayed(!isDisplayed);
             },
           },
           dropdownProps: {
-            ref: dropdownRef,
-            onBlur: () => setTimeout(() => setDisplayed(false), 50),
             onClick: () => setTimeout(() => setDisplayed(false), 50),
           },
         })}
